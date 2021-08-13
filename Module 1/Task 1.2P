@@ -1,1 +1,25 @@
+int led_pin = 13;                
+int pir_pin = 2;              
+int led_state = LOW;
+int pir_prev = LOW;
 
+void setup() {
+  pinMode(led_pin, OUTPUT);      
+  pinMode(pir_pin, INPUT_PULLUP); 
+  Serial.begin(9600);
+  attachInterrupt(digitalPinToInterrupt(pir_pin), toggle, CHANGE);
+  Serial.begin(9600);
+}
+
+void toggle() {
+  int pir_state = digitalRead(pir_pin);
+  if(pir_state != pir_prev) {
+    led_state = !led_state;
+    digitalWrite(led_pin, led_state);
+    Serial.println("Motion Detected");
+  }  
+}
+
+void loop(){
+  int pir_state = digitalRead(pir_pin);
+}
