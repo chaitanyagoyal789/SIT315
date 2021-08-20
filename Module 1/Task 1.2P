@@ -1,9 +1,13 @@
+//LED Pin
 int led_pin = 13;                
+//PIR Sensor Input
 int pir_pin = 2;              
+//Intially PIR State No Motion and LED Off
 int led_state = LOW;
 int pir_prev = LOW;
 
-void setup() {
+void setup() 
+{
   pinMode(led_pin, OUTPUT);      
   pinMode(pir_pin, INPUT_PULLUP); 
   Serial.begin(9600);
@@ -11,15 +15,21 @@ void setup() {
   Serial.begin(9600);
 }
 
-void toggle() {
+void loop()
+{
+
+}
+
+void toggle()
+{
+  //Reading Motion Value
   int pir_state = digitalRead(pir_pin);
-  if(pir_state != pir_prev) {
+  //If the motion state is changed
+  if(pir_state != pir_prev) 
+  {
+    //Updating the LED State
     led_state = !led_state;
     digitalWrite(led_pin, led_state);
     Serial.println("Motion Detected");
   }  
-}
-
-void loop(){
-  int pir_state = digitalRead(pir_pin);
 }
