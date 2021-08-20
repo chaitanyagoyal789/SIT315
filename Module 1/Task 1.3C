@@ -1,28 +1,34 @@
-int ledpin = 7;                
+int LED = 7;                
 int pirpin = 2;
-int motionpin = 3;
-  
+int pir2pin = 3;  
 int led_state = LOW;
 int pir_prev = LOW;
-int motion_prev =LOW;
-void setup() {
-    pinMode(ledpin, OUTPUT);      
+int pir2_prev =LOW;
+
+void setup() 
+{
+    pinMode(LED, OUTPUT);      
     pinMode(pirpin, INPUT_PULLUP);
-    pinMode(motionpin, INPUT_PULLUP); 
-    Serial.begin(9600);// declare sensor as input
-    attachInterrupt(digitalPinToInterrupt(pirpin), toggle, CHANGE);
-      
-    attachInterrupt(digitalPinToInterrupt(motionpin), motion, CHANGE);
+    pinMode(pir2pin, INPUT_PULLUP);     
     Serial.begin(9600);
+    attachInterrupt(digitalPinToInterrupt(pirpin), toggle, CHANGE);
+    attachInterrupt(digitalPinToInterrupt(pir2pin), motion, CHANGE);
+    Serial.begin(9600);
+}
+
+void loop()
+{
+    int pir_state = digitalRead(pirpin);
+    int motion_state = digitalRead(motionpin);
 }
 
 void motion()
 {
-    int motion_state = digitalRead(motionpin);
-    if(motion_state != motion_prev)
+    int pir2_state = digitalRead(pir2pin);
+    if(pir2_state != pir2_prev)
     {
         led_state = !led_state;
-        digitalWrite(ledpin, led_state);
+        digitalWrite(LED, led_state);
         Serial.println("Motion Detected Sensor 1! LED State Changed");
     }  
 }  
@@ -33,12 +39,7 @@ void toggle()
     if(pir_state != pir_prev)
     {
         led_state = !led_state;
-        digitalWrite(ledpin, led_state);
+        digitalWrite(LED, led_state);
         Serial.println("Motion Detected Sensor 2! LED State Changed");
     }  
-}
-
-void loop(){
-    int pir_state = digitalRead(pirpin);
-    int motion_state = digitalRead(motionpin);
 }
